@@ -12,6 +12,7 @@ const ROUTES = {
   mail: { label: 'Mail', icon: 'M', load: () => import('./views/mail.js') },
   calendar: { label: 'Calendar', icon: 'C', load: () => import('./views/calendar.js') },
   tasks: { label: 'Tasks', icon: 'K', load: () => import('./views/tasks.js') },
+  jams: { label: 'Jams', icon: 'J', load: () => import('./views/jams.js') },
   notes: { label: 'Notes', icon: 'N', load: () => import('./views/notes.js') },
   updates: { label: 'Updates', icon: 'U', load: () => import('./views/updates.js') },
   portfolio: { label: 'Portfolio', icon: 'P', load: () => import('./views/portfolio.js') },
@@ -139,7 +140,7 @@ async function route() {
 function renderMore(view) {
   clear(view,
     h('div', { class: 'page-head' }, h('p', { class: 'pixel-label' }, 'MENU'), h('h1', { class: 'page-title' }, 'More')),
-    h('nav', { class: 'more-list', 'aria-label': 'More' }, ['notes', 'updates', 'portfolio', 'settings'].map((k) => navItem(k, 'more-link'))));
+    h('nav', { class: 'more-list', 'aria-label': 'More' }, ['jams', 'notes', 'updates', 'portfolio', 'settings'].map((k) => navItem(k, 'more-link'))));
   drawBadges();
 }
 
@@ -179,6 +180,7 @@ function openPalette() {
     { label: 'Compose email', run: async () => (await import('./views/mail.js')).compose({}, ctx) },
     { label: 'New task', run: () => { ctx.navigate('tasks'); setTimeout(() => $('#view input.search')?.focus(), 300); } },
     { label: 'New event', run: () => { ctx.navigate('calendar'); setTimeout(() => $('#view input.search')?.focus(), 300); } },
+    { label: 'Post a jam update', run: () => { ctx.navigate('jams'); setTimeout(() => $('#view .jam-log-input')?.focus(), 300); } },
     { label: 'New note', run: () => { ctx.navigate('notes'); setTimeout(() => $('#view .note-input')?.focus(), 300); } },
     { label: 'Open portfolio site', run: () => window.open(CONFIG.portfolioUrl, '_blank', 'noopener') },
     { label: 'Refresh', run: () => { route(); updateBadges(); } }
@@ -209,7 +211,7 @@ function shortcuts(e) {
   const typing = /input|textarea|select/i.test(document.activeElement?.tagName) || document.activeElement?.isContentEditable;
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); return; }
   if (typing || e.ctrlKey || e.metaKey || e.altKey || $('#modal').open) return;
-  const keys = { 1: 'today', 2: 'mail', 3: 'calendar', 4: 'tasks', 5: 'notes', 6: 'updates', 7: 'portfolio' };
+  const keys = { 1: 'today', 2: 'mail', 3: 'calendar', 4: 'tasks', 5: 'jams', 6: 'notes', 7: 'updates', 8: 'portfolio' };
   if (keys[e.key]) ctx.navigate(keys[e.key]);
   else if (e.key === '/') { const s = $('#view input.search, #view input[type=search]'); if (s) { e.preventDefault(); s.focus(); } }
   else if (e.key === 'c') import('./views/mail.js').then((m) => m.compose({}, ctx));

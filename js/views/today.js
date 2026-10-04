@@ -8,6 +8,7 @@ import { getToken } from '../auth.js';
 import { focusTimer } from './focus.js';
 import { openThread } from './mail.js';
 import { eventRow } from './calendar.js';
+import { jamPanel } from './jams.js';
 
 export function render(root, ctx) {
   const now = new Date();
@@ -25,6 +26,7 @@ export function render(root, ctx) {
       h('h1', { class: 'page-title' }, `${greet}, ${name}`)),
     capture(ctx),
     h('div', { class: 'grid' },
+      jamPanel(),
       panel('Up next', { action: h('a', { class: 'panel-link', href: '#/calendar' }, 'Calendar') }, slots.events),
       panel('Tasks due', { action: h('a', { class: 'panel-link', href: '#/tasks' }, 'All tasks') }, slots.tasks),
       panel('Inbox', { action: h('a', { class: 'panel-link', href: '#/mail' }, 'Mail') }, slots.mail),

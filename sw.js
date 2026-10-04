@@ -1,11 +1,11 @@
 // Service worker: keeps the app shell available offline and lets the app install.
 // App files: network first (always fresh when online), cache as the fallback.
 // API calls (Google, GitHub) are never cached here; the app keeps its own copy.
-const CACHE = 'hub-v1';
+const CACHE = 'hub-v2';
 const SHELL = [
   './', 'index.html', 'config.js', 'manifest.webmanifest', 'css/app.css',
   'js/app.js', 'js/ui.js', 'js/store.js', 'js/auth.js', 'js/google.js', 'js/github.js',
-  'js/views/today.js', 'js/views/mail.js', 'js/views/calendar.js', 'js/views/tasks.js',
+  'js/views/today.js', 'js/views/jams.js', 'js/views/mail.js', 'js/views/calendar.js', 'js/views/tasks.js',
   'js/views/notes.js', 'js/views/updates.js', 'js/views/portfolio.js', 'js/views/settings.js', 'js/views/focus.js',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'
 ];

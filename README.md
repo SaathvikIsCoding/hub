@@ -20,12 +20,13 @@ Everything syncs through your own Google and GitHub accounts, so every device se
 | Mail | Inbox, Unread, Starred, Important, Sent, Gmail search, read (safe HTML, images blocked until you allow them), reply, reply all, compose, archive, star, trash, turn an email into a task |
 | Calendar | 30-day agenda across your calendars, plain-English quick add, new event, join call, map, delete |
 | Tasks | Google Tasks lists, overdue / today / upcoming / no date, add with due date, edit, complete with undo |
+| Jams | Game jam countdowns (upload target + deadline), submission checklist, progress updates (devlog), links, add deadlines to Google Calendar. Also shown on Today |
 | Notes | Notes and ideas, pin, search, synced through a hidden app folder in Google Drive |
 | Updates | GitHub notifications (with token), your activity, your repos |
 | Portfolio | Live portfolio content, project and certificate links, edit/admin shortcut, latest commits, Pages deploy status |
 | Settings | Connect Google and GitHub, notifications, install, setup guide |
 
-Shortcuts: `Ctrl+K` command palette, `1`–`7` switch screens, `/` search, `c` compose, `r` refresh.
+Shortcuts: `Ctrl+K` command palette, `1`–`8` switch screens, `/` search, `c` compose, `r` refresh.
 
 ## One-time Google setup
 

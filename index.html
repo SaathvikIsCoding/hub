@@ -6,6 +6,10 @@
   <title>Hub</title>
   <meta name="description" content="Saathvik's personal command center: mail, calendar, tasks, notes, GitHub and portfolio in one place.">
   <meta name="robots" content="noindex">
+  <!-- Only this site's own scripts may run. Data can only be fetched from Google, GitHub and the portfolio.
+       Opened emails inherit this too, on top of their own stricter rules. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.googleapis.com https://oauth2.googleapis.com https://api.github.com https://saathvikiscoding.github.io; frame-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#000000">
   <meta name="color-scheme" content="dark">
   <meta name="mobile-web-app-capable" content="yes">

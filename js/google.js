@@ -253,37 +253,40 @@ export const deleteTask = (listId, id) => gfetch(`${TK}/lists/${listId}/tasks/${
 // ================= Drive app folder (synced notes) =================
 // A hidden per-app folder in your Drive: only this app can see it.
 
-const NOTES = 'hub-notes.json';
-
-async function notesFileId() {
-  const known = load('notesFileId');
+// Any JSON file in the app folder: notes, jams, ...
+async function appFileId(name) {
+  const key = `fileId:${name}`;
+  const known = load(key);
   if (known) return known;
-  const r = await gfetch(`/drive/v3/files?${qs({ spaces: 'appDataFolder', q: `name='${NOTES}'`, fields: 'files(id)' })}`);
+  const r = await gfetch(`/drive/v3/files?${qs({ spaces: 'appDataFolder', q: `name='${name}'`, fields: 'files(id)' })}`);
   const id = r.files?.[0]?.id || null;
-  if (id) save('notesFileId', id);
+  if (id) save(key, id);
   return id;
 }
 
-export async function readNotes() {
-  const id = await notesFileId();
-  if (!id) return [];
+export async function readAppFile(name, fallback) {
+  const id = await appFileId(name);
+  if (!id) return fallback;
   const data = await gfetch(`/drive/v3/files/${id}?alt=media`);
-  return Array.isArray(data) ? data : JSON.parse(data || '[]');
+  return typeof data === 'string' ? JSON.parse(data || 'null') ?? fallback : data;
 }
 
-export async function writeNotes(notes) {
-  const id = await notesFileId();
-  const json = JSON.stringify(notes);
+export async function writeAppFile(name, value) {
+  const id = await appFileId(name);
+  const json = JSON.stringify(value);
   if (id) {
     return gfetch(`/upload/drive/v3/files/${id}?uploadType=media`, { method: 'PATCH', body: json, raw: true, headers: { 'Content-Type': 'application/json' } });
   }
   const boundary = `hub${Date.now()}`;
   const body = [
     `--${boundary}`, 'Content-Type: application/json; charset=UTF-8', '',
-    JSON.stringify({ name: NOTES, parents: ['appDataFolder'] }),
+    JSON.stringify({ name, parents: ['appDataFolder'] }),
     `--${boundary}`, 'Content-Type: application/json', '', json, `--${boundary}--`
   ].join('\r\n');
   const f = await gfetch('/upload/drive/v3/files?uploadType=multipart&fields=id', { method: 'POST', body, raw: true, headers: { 'Content-Type': `multipart/related; boundary=${boundary}` } });
-  save('notesFileId', f.id);
+  save(`fileId:${name}`, f.id);
   return f;
 }
+
+export const readNotes = () => readAppFile('hub-notes.json', []).then((d) => (Array.isArray(d) ? d : []));
+export const writeNotes = (notes) => writeAppFile('hub-notes.json', notes);
